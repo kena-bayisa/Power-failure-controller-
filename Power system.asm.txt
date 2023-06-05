@@ -1,0 +1,77 @@
+ org 00h
+	  
+	  go:
+	  CLR P2.0
+	  CLR P2.1
+	  SETB P0.0
+	  MOV SCON,#50h
+	  MOV TMOD,#20h
+	  MOV TH1,#0FDh
+	  SETB TR1
+	  
+	  JB P0.0,tlab
+	  JNB P0.0,tlab1
+	  
+	  ACALL delay
+	  ACALL delay
+	  ACALL delay
+	  
+	  SJMP go
+	 
+		  
+	  tlab:
+	  SETB P2.0
+	  MOV A,#"P"
+	  ACALL trans
+	  MOV A,#"O"
+	  ACALL trans
+	  MOV A,#"W"
+	  ACALL trans
+	  MOV A,#"E"
+	  ACALL trans
+	  MOV A,#"R"
+	  ACALL trans
+	  MOV A, #"-"
+	  ACALL trans
+	  SJMP go
+	  
+	  tlab1:
+	  
+	  SETB P2.1
+	  MOV A,#"N"
+	  ACALL trans
+	  MOV A,#"O"
+	  ACALL trans
+	  MOV A,#"-"
+	  ACALL trans
+	  MOV A,#"P"
+	  ACALL trans
+	  MOV A,#"O"
+	  ACALL trans
+	  MOV A,#"W"
+	  ACALL trans
+	  MOV A,#"E"
+	  ACALL trans
+	  MOV A,#"R"
+	  ACALL trans
+
+	  MOV A,#"-"
+	  ACALL trans
+	  ;ACALL delay
+	  SJMP go
+	  
+	  trans:  MOV sbuf,A
+	  second: JNB TI,second
+	  clr TI
+	  RET
+	  
+	  delay:
+	  loopb:MOV r2,#250
+	  loopa:MOV r3,#250
+	                NOP
+					NOP
+					MOV th0,#00h
+					DJNZ r2,loopb
+					DJNZ r3,loopa
+					RET
+	   END
